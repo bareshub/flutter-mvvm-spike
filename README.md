@@ -53,3 +53,71 @@ Each piece of architecture should have a well defined list of inputs and outputs
 ### Testability
 
 The principles that make software extensible also make software easier to test. For example, it is possible to test the self-contained logic of a view model by mocking a repository.
+
+## Model-View-ViewModel
+
+The __MVVM__ is an architectural pattern that organizes each feature of an application into three distinct components:
+
+- `Model`
+- `View`
+- `ViewModel`
+
+Following the _separation-of-concerns_ principle, a Flutter application is typically divided into two main layers:
+
+- __UI layer__ : View + ViewModel
+- __Data layer__ : Repositories + Services
+
+![alt text](https://docs.flutter.dev/assets/images/docs/app-architecture/guide/mvvm-intro-with-layers.png)
+
+Each feature in your application generally includes:
+
+- A __View__ that defines the UI
+- A __ViewModel__ that contains the UI logic
+- One or more __Repositories__ that serve as the source of truth for application data
+- Optional __Services__ that handle communication with external APIs
+
+> For example, logging in and logging out can be treated as separate features.
+The login feature might include a LoginViewModel and a LoginView for its screen.
+Logout could be a simpler widget, built from a LogoutViewModel and LogoutView, embedded wherever needed.
+
+### Views
+
+A View should contain only minimal logic, such as:
+
+- Simple if-statements to show and hide widgets based on a flag
+- Animation logic
+- Layout logic based on device information
+- Simple routing logic
+
+### View models
+
+A ViewModel is responsible for:
+
+- Retrieving application data from repositories and transforming it into a format suitable for presentation in the view
+- Maintaining the current state needed in the view, so that the view can rebuild without losing data
+- Exposes callbacks (called __commands__) to the view that can be attached to an event handler
+
+### Repositories
+
+Repositories classes are the source of truth for the model data. They're responsible for polling data from services, and transforming that raw data into domain models.
+
+Repositories handle the business logic associated with services, such as:
+
+- Caching
+- Error handling
+- Retry logic
+- Refreshing data
+- Polling services for new data
+- Refreshing data based on user actions
+
+> Repositories output application data as domain models. For example, a social media app might have a UserProfileRepository class that exposes a Stream<UserProfile?>, which emits a new value whenever the user signs in or out.
+
+### Services
+
+Services wrap API endpoints and expose asynchronous response objects, such as `Future` and `Stream` objects. They're only used to isolate data-loading, and they hold no state.
+
+Examples of endpoints that services might wrap include:
+
+- iOS and Android APIs
+- REST endpoints
+- Local files
