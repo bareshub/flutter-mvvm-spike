@@ -138,7 +138,7 @@ lib
 │   │ └─── <view_model class>.dart
 │   └─┬─ widgets
 │     ├── <feature name>_screen.dart
-│     ├── <feature name>_widget.dart
+│     ├── <feature name>_component.dart
 │     └── <other widgets>
 ├─┬─ domain
 │ └─┬─ models
@@ -169,3 +169,14 @@ testing
 ├─── fakes
 └─── models
 ```
+
+## Communicating Between Layers
+
+The rules of engagement are as follows:
+
+| Component | Rules of engagement |
+|:----------|:--------------------|
+| __View__ | A view is only aware of exactly one view model, and is never aware of any other layer or component When created, Flutter passes the view model to the view as an argument, exposing the view model's data and command callbacks to the view. |
+| __ViewModel__ | A ViewModel belongs to exactly one view, which can see its data, but the model never needs to know that a view exists. A view model is aware of one or more repositories, which are passed into the view model's constructor. |
+| __Repository__ | A repository can be aware of many services, which are passed as arguments into the repository constructor. A repository can be used by many view models, but it never needs to be aware of them. |
+| __Service__ | A service can be used by many repositories, but it never needs to be aware of a repository (or any other object). |
