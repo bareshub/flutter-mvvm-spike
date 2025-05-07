@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+/// Files generated through command `dart run build_runner watch -d`
 part 'activity.freezed.dart';
-
 part 'activity.g.dart';
 
 enum TimeOfDay { any, morning, afternoon, evening, night }
