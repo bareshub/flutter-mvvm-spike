@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
 
@@ -26,13 +28,16 @@ class ActivitiesViewmodel extends ChangeNotifier {
   List<Activity> _eveningActivities = <Activity>[];
 
   /// List of selected [Activity] per destination.
-  Set<String> get selectedActivities => _selectedActivities;
+  UnmodifiableSetView<String> get selectedActivities =>
+      UnmodifiableSetView(_selectedActivities);
 
   /// List of daytime [Activity] per destination.
-  List<Activity> get daytimeActivities => _daytimeActivities;
+  UnmodifiableListView<Activity> get daytimeActivities =>
+      UnmodifiableListView(_daytimeActivities);
 
   /// List of evening [Activity] per destination.
-  List<Activity> get eveningActivities => _eveningActivities;
+  UnmodifiableListView<Activity> get eveningActivities =>
+      UnmodifiableListView(_eveningActivities);
 
   /// Load list of [Activity] for a [Destination] by ref.
   late final PlainCommand loadActivities;
